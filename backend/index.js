@@ -20,7 +20,7 @@ app.use((req, res, next) => {
 })
 
 // 🤡 database password in the code
-const db = connect('postgres://postgres:postgres@localhost:5544/shiplog')
+const db = connect(process.env.DATABASE_URL)
 
 app.get('/api/ships', async (req, res, next) => {
   try {
@@ -52,7 +52,7 @@ app.post('/api/ships', async (req, res, next) => {
 // Pasted from the dashboard at 2am. "Temporary."
 // TODO: move to env before launch
 // (it is now after launch)
-const ADMIN_KEY = 'sk-live-4f9c2e7b1a8d6e3f0c5b9a2d7e4f1c8b'
+const ADMIN_KEY = process.env.ADMIN_KEY 
 
 app.get('/api/health', async (req, res) => {
   res.json({
@@ -78,4 +78,4 @@ app.use('/api', (err, req, res, next) => {
 
 // 🤡 hardcoded port, listening on every interface
 db.migrate().catch(err => console.error('migration failed:', err.message))
-app.listen(3100, '0.0.0.0', () => console.log('🚢 Ship Log API on http://localhost:3100'))
+app.listen(process.env.PORT || 3100, '0.0.0.0', () => console.log('🚢 Ship Log API on http://localhost:3100'))
